@@ -5,7 +5,22 @@
 
 	Version <%= VERSION %>.
 
-	<< description goes here... >>
+	Dealing with mousewheel events in browsers is an epic pain. The
+	official DOM wheel event is badly designed enough that Chrome,
+	Opera and Safari have so far refused to implement it, which isn't
+	to say that the non-standard mousewheel event (or the DOMMouseScroll
+	and MozMousePixelScroll events &ndash; yes, really) is a whole lot
+	better. It's a total mess.
+
+	The mousewheel event plugin is a (work-in-progress!) attempt to
+	smooth over differences between browsers and operating systems, and
+	provide you with the only bit of information you actually care about
+	in 99% of cases: how many pixels of scroll the mousewheel event is
+	equivalent to.
+
+	Be aware that intercepting mousewheel events rather than using native
+	scroll is often a bad idea &ndash; it doesn't perform as well in all
+	cases, and doesn't work with mobile devices.
 
 	==========================
 
@@ -26,7 +41,15 @@
 	    // the return value
 	    require( 'Ractive-events-mousewheel' );
 
-	<< more specific instructions for this plugin go here... >>
+	Add a mousewheel event in the normal fashion:
+
+	    <div on-mousewheel='scroll'>scroll here</div>
+
+	Then add a handler:
+
+	    ractive.on( 'scroll', function ( event ) {
+	      alert( event.dx, event.dy ); // dx and dy - pixel scroll equivalent values
+	    });
 
 */
 

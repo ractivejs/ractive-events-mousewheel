@@ -18,11 +18,11 @@
 		}
 
 		.left {
-			padding-right: 1em;
+			padding-right: 0.5em;
 		}
 
 		.right {
-			padding-left: 1em;
+			padding-left: 0.5em;
 		}
 
 		.column {
@@ -46,6 +46,11 @@
 			height: 400px;
 			background-color: #f9f9f9;
 			box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
+			border: 1px solid #ccc;
+			margin: 0 0 1em 0;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
 		}
 
 		.viewport.intercept {
@@ -74,7 +79,7 @@
 	<header>
 		<h1>Ractive.js mousewheel event plugin</h1>
 		<p class='strap'>
-			<span class='download'>download: <a href='[TODO]'>Ractive-events-mousewheel.js</a></span>
+			<span class='download'>download: <a href='https://raw.github.com/RactiveJS/Ractive-events-mousewheel/master/Ractive-events-mousewheel.js'>Ractive-events-mousewheel.js</a></span>
 			<span class='more-plugins'>more plugins at <a href='http://ractivejs.org/plugins'>ractivejs.org/plugins</a></span>
 		</p>
 	</header>
@@ -119,7 +124,7 @@
 			</div>
 		</div>
 
-		<p>The two grids should scroll at the same speed when you interact with them via a mousewheel or trackpad. If not, please <a href=''>raise an issue</a>, quoting your browser and operating system. Thanks!</p>
+		<p>The two grids should scroll at the same speed when you interact with them via a mousewheel or trackpad. If not, please <a href='https://github.com/RactiveJS/Ractive-events-mousewheel/issues'>raise an issue</a>, quoting your browser and operating system. Thanks!</p>
 
 		<!-- {{>grid}} -->
 			{{#columns:x}}
