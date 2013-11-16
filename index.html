@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+	<meta charset='utf-8'>
+	<title>Ractive.js mousewheel event plugin</title>
+
+	<!-- CSS -->
+	<link href='http://fonts.googleapis.com/css?family=Voltaire' rel='stylesheet' type='text/css'>
+	<link rel='stylesheet' href='demo/main.css'>
+
+	<style type='text/css'>
+		.left, .right {
+			width: 50%;
+			float: left;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		.left {
+			padding-right: 1em;
+		}
+
+		.right {
+			padding-left: 1em;
+		}
+
+		.column {
+			float: left;
+		}
+
+		.square {
+			width: 5em;
+			height: 5em;
+			text-align: center;
+			padding-top: 2em;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			border-right: 1px solid #eee;
+			border-bottom: 1px solid #eee;
+		}
+
+		.viewport {
+			width: 100%;
+			height: 400px;
+			background-color: #f9f9f9;
+			box-shadow: inset 1px 1px 3px rgba(0,0,0,0.1);
+		}
+
+		.viewport.intercept {
+			overflow: hidden;
+		}
+
+		.viewport.native {
+			overflow: scroll;
+		}
+
+		.viewport-inner {
+			position: relative;
+			border-left: 1px solid #eee;
+			border-top: 1px solid #eee;
+			width: 105em;
+			height: 105em;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- if the project is on GitHub, add a fork me button! -->
+	<a class='forkme' href='https://github.com/RactiveJS/Ractive-events-mousewheel'>Fork me on GitHub</a>
+
+	<header>
+		<h1>Ractive.js mousewheel event plugin</h1>
+		<p class='strap'>
+			<span class='download'>download: <a href='[TODO]'>Ractive-events-mousewheel.js</a></span>
+			<span class='more-plugins'>more plugins at <a href='http://ractivejs.org/plugins'>ractivejs.org/plugins</a></span>
+		</p>
+	</header>
+
+	<main>
+		<p>Dealing with mousewheel events in browsers is an epic pain. The official <a href='https://developer.mozilla.org/en-US/docs/Web/Reference/Events/wheel'>DOM wheel event</a> is badly designed enough that Chrome, Opera and Safari have so far refused to implement it, which isn't to say that the non-standard mousewheel event (or the DOMMouseScroll and MozMousePixelScroll events &ndash; yes, really) is a whole lot better. It's a total mess.</p>
+
+		<p>The mousewheel event plugin is a (work-in-progress!) attempt to smooth over differences between browsers and operating systems, and provide you with the only bit of information you actually care about in 99% of cases: how many pixels of scroll the mousewheel event is equivalent to.</p>
+
+		<p>Be aware that intercepting mousewheel events rather than using native scroll is often a bad idea &ndash; it doesn't perform as well in all cases, and doesn't work with mobile devices.</p>
+
+		<div id='demo' class='clearfix'></div>
+
+		<pre id='demo-template-view' class='prettyprint lang-html'></pre>
+		<pre id='demo-code-view' class='prettyprint lang-js'></pre>
+	</main>
+
+	<!-- add additional info such as your homepage here, if you want -->
+	<footer>
+		<p>Copyright &copy; 2013 Rich Harris. Licensed MIT</p>
+	</footer>
+
+	<!-- Demo template -->
+	<script id='demo-template' type='text/ractive'>
+		<div class='left'>
+			<h2>Using the mousewheel event</h2>
+
+			<div class='viewport intercept' on-mousewheel='scroll'>
+				<div class='viewport-inner' style='top: {{top}}px; left: {{left}}px;'>
+					{{>grid}}
+				</div>
+			</div>
+		</div>
+
+		<div class='right'>
+			<h2>Using native scroll</h2>
+
+			<div class='viewport native'>
+				<div class='viewport-inner'>
+					{{>grid}}
+				</div>
+			</div>
+		</div>
+
+		<p>The two grids should scroll at the same speed when you interact with them via a mousewheel or trackpad. If not, please <a href=''>raise an issue</a>, quoting your browser and operating system. Thanks!</p>
+
+		<!-- {{>grid}} -->
+			{{#columns:x}}
+				<div class='column'>
+					{{#rows:y}}
+						<div class='square'>{{x}},{{y}}</div>
+					{{/rows}}
+				</div>
+			{{/columns}}
+		<!-- {{/grid}} -->
+	</script>
+
+	<!-- Dependencies -->
+	<script src='lib/Ractive-legacy.js'></script>
+	<script src='Ractive-events-mousewheel.js'></script>
+
+	<!-- Demo code -->
+	<script id='demo-code'>
+		var viewport, inner, minLeft, minTop, clamp;
+
+		ractive = new Ractive({
+			el: 'demo',
+			template: '#demo-template',
+			data: {
+				columns: new Array( 21 ),
+				rows: new Array( 21 ),
+				left: 0,
+				top: 0
+			}
+		});
+
+		// for the purposes of the demo, we need to know the size of the
+		// left-hand grid and its container to prevent scrolling past
+		// the boundaries
+		viewportBcr = ractive.find( '.viewport' ).getBoundingClientRect();
+		innerBcr = ractive.find( '.viewport-inner' ).getBoundingClientRect();
+		minLeft = viewportBcr.width - innerBcr.width;
+		minTop = viewportBcr.height - innerBcr.height;
+
+		clamp = function ( num, min, max ) {
+			return Math.max( min, Math.min( max, num ) );
+		};
+
+		ractive.on( 'scroll', function ( event ) {
+			var left, top;
+
+			event.original.preventDefault(); // prevent entire page from scrolling
+			
+			left = clamp( this.get( 'left' ) + event.dx, minLeft, 0 );
+			top = clamp( this.get( 'top' ) + event.dy, minTop, 0 );
+
+			this.set({
+				left: left,
+				top: top
+			});
+		});
+	</script>
+
+	<!-- Insert code into the page -->
+	<script src='demo/prettify.js'></script>
+	<script src='demo/demo.js'></script>
+</body>
+</html>
