@@ -22,6 +22,9 @@
 	scroll is often a bad idea &ndash; it doesn't perform as well in all
 	cases, and doesn't work with mobile devices.
 
+	Thanks to https://github.com/brandonaaron/jquery-mousewheel for
+	figuring out a lot of this stuff.
+
 	==========================
 
 	Troubleshooting: If you're using a module system in your app (AMD or
@@ -80,80 +83,93 @@
 
 	'use strict';
 
-	var toBind;
+	var mousewheel, events;
 
 	if ( typeof document === 'undefined' ) {
 		return;
 	}
 
-	toBind = 'onwheel' in document || document.documentMode >= 9 ? ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'];
-	
-	Ractive.events.mousewheel = function ( node, fire ) {
+	// Modern Firefox, or IE9+
+	if ( 'onwheel' in document || document.documentMode >= 9 ) {
+		
 
-		var i, handler;
+		mousewheel = function ( node, fire ) {
+			var handler = function ( event ) {
+				var pixelScale = 1;
 
-		handler = function ( event ) {
-			var delta      = 0,
-				deltaX     = 0,
-				deltaY     = 0,
-				pixelScale = 1;
-
-			// Old school scrollwheel delta
-			if ( event.wheelDelta ) { delta = event.wheelDelta; }
-			if ( event.detail )	 { delta = event.detail * -1; }
-
-			// At a minimum, setup the deltaY to be delta
-			deltaY = delta;
-
-			// Firefox < 17 related to DOMMouseScroll event
-			if ( event.axis !== undefined && event.axis === event.HORIZONTAL_AXIS ) {
-				deltaY = 0;
-				deltaX = delta * -1;
-			}
-
-			// New school wheel delta (wheel event)
-			if ( event.deltaMode !== undefined ) {
 				if ( event.deltaMode === event.DOM_DELTA_LINE ) {
 					pixelScale = 40;
 				}
 
-				// TODO what is DOM_DELTA_PAGE equal to?
-			}
-			
-			if ( event.deltaY ) {
-				deltaY = event.deltaY * -pixelScale;
-			}
-			if ( event.deltaX ) {
-				deltaX = event.deltaX * -pixelScale;
-			}
+				fire({
+					node: this,
+					original: event,
+					dx: event.deltaX * -pixelScale,
+					dy: event.deltaY * -pixelScale
+				});
+			};
 
-			// Webkit
-			if ( event.wheelDeltaY !== undefined ) { deltaY = event.wheelDeltaY / 3; }
-			if ( event.wheelDeltaX !== undefined ) { deltaX = event.wheelDeltaX / 3; }
+			node.addEventListener( 'wheel', handler, false );
 
-			fire({
-				node: node,
-				original: event,
-				dx: deltaX,
-				dy: deltaY
-			});
-		};
-
-
-		i = toBind.length;
-		while ( i-- ) {
-			node.addEventListener( toBind[i], handler, false );
-		}
-
-		return {
-			teardown: function () {
-				i = toBind.length;
-				while ( i-- ) {
-					node.removeEventListener( toBind[i], handler, false );
+			return {
+				teardown: function () {
+					node.removeEventListener( 'wheel', handler, false );
 				}
-			}
+			};
 		};
+	}
 
-	};
+	// 
+	else {
+		events = [ 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll' ];
+
+		mousewheel = function ( node, fire ) {
+			var i, handler = function ( event ) {
+				var delta, deltaX, deltaY;
+
+				delta = deltaX = deltaY = 0;
+
+				// Old school scrollwheel delta
+				if ( event.wheelDelta ) { delta = event.wheelDelta; }
+				if ( event.detail )	 { delta = event.detail * -1; }
+
+				// At a minimum, setup the deltaY to be delta
+				deltaY = delta;
+
+				// Firefox < 17 related to DOMMouseScroll event
+				if ( event.axis !== undefined && event.axis === event.HORIZONTAL_AXIS ) {
+					deltaY = 0;
+					deltaX = delta * -1;
+				}
+
+				// Webkit
+				if ( event.wheelDeltaY !== undefined ) { deltaY = event.wheelDeltaY / 3; }
+				if ( event.wheelDeltaX !== undefined ) { deltaX = event.wheelDeltaX / 3; }
+
+				fire({
+					node: this,
+					original: event,
+					dx: deltaX,
+					dy: deltaY
+				});
+			};
+
+			i = events.length;
+			while ( i-- ) {
+				node.addEventListener( events[i], handler, false );
+			}
+
+			return {
+				teardown: function () {
+					var i = events.length;
+					while ( i-- ) {
+						node.removeEventListener( events[i], handler, false );
+					}
+				}
+			};
+		};
+	}
+
+	Ractive.events.mousewheel = mousewheel;
 
 }));
