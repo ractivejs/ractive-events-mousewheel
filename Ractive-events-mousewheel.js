@@ -29,7 +29,7 @@
 
 	Troubleshooting: If you're using a module system in your app (AMD or
 	something more nodey) then you may need to change the paths below,
-	where it says `require( 'ractive' )` or `define([ 'Ractive' ]...)`.
+	where it says `require( 'Ractive' )` or `define([ 'Ractive' ]...)`.
 
 	==========================
 
@@ -62,7 +62,7 @@
 
 	// Common JS (i.e. browserify) environment
 	if ( typeof module !== 'undefined' && module.exports && typeof require === 'function' ) {
-		factory( require( 'ractive' ) );
+		factory( require( 'Ractive' ) );
 	}
 
 	// AMD?
@@ -91,7 +91,7 @@
 
 	// Modern Firefox, or IE9+
 	if ( 'onwheel' in document || document.documentMode >= 9 ) {
-		
+
 
 		mousewheel = function ( node, fire ) {
 			var handler = function ( event ) {
@@ -119,7 +119,7 @@
 		};
 	}
 
-	// 
+	//
 	else {
 		events = [ 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll' ];
 
