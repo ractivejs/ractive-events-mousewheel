@@ -1,8 +1,8 @@
 {
 	"name": "ractive-events-mousewheel",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": "Rich Harris",
-	"main": "Ractive-events-mousewheel.js",
+	"main": "ractive-events-mousewheel.js",
 	"ignore": [
 		"**/.*",
 		"src",

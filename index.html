@@ -75,13 +75,13 @@
 <body>
 
 	<!-- if the project is on GitHub, add a fork me button! -->
-	<a class='forkme' href='https://github.com/RactiveJS/Ractive-events-mousewheel'>Fork me on GitHub</a>
+	<a class='forkme' href='https://github.com/ractivejs/ractive-events-mousewheel'>Fork me on GitHub</a>
 
 	<header>
 		<h1>Ractive.js mousewheel event plugin</h1>
 		<p class='strap'>
-			<span class='download'>download: <a href='https://raw.github.com/RactiveJS/Ractive-events-mousewheel/master/Ractive-events-mousewheel.js'>Ractive-events-mousewheel.js</a></span>
-			<span class='more-plugins'>more plugins at <a href='http://ractivejs.org/plugins'>ractivejs.org/plugins</a></span>
+			<span class='download'>download: <a href='https://raw.githubusercontent.com/ractivejs/ractive-events-mousewheel/master/ractive-events-mousewheel.js'>ractive-events-mousewheel.js</a></span>
+			<span class='more-plugins'>more plugins at <a href='http://docs.ractivejs.org/latest/plugins'>ractivejs.org</a></span>
 		</p>
 	</header>
 
@@ -125,7 +125,7 @@
 			</div>
 		</div>
 
-		<p>The two grids should scroll at the same speed when you interact with them via a mousewheel or trackpad. If not, please <a href='https://github.com/RactiveJS/Ractive-events-mousewheel/issues'>raise an issue</a>, quoting your browser and operating system. Thanks!</p>
+		<p>Scrolling each grid by a given amount (with e.g. a mousewheel or trackpad) should move the contents the same distance in both cases. If not, please <a href='https://github.com/ractivejs/ractive-events-mousewheel/issues'>raise an issue</a>, quoting your browser and operating system. Thanks!</p>
 
 		<!-- {{>grid}} -->
 			{{#columns:x}}
@@ -139,8 +139,8 @@
 	</script>
 
 	<!-- Dependencies -->
-	<script src='lib/Ractive-legacy.js'></script>
-	<script src='Ractive-events-mousewheel.js'></script>
+	<script src='vendor/ractive/ractive-legacy.js'></script>
+	<script src='ractive-events-mousewheel.js'></script>
 
 	<!-- Demo code -->
 	<script id='demo-code'>
@@ -173,7 +173,7 @@
 			var left, top;
 
 			event.original.preventDefault(); // prevent entire page from scrolling
-			
+
 			left = clamp( this.get( 'left' ) + event.dx, minLeft, 0 );
 			top = clamp( this.get( 'top' ) + event.dy, minTop, 0 );
 

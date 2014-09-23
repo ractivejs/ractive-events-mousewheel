@@ -1,16 +1,14 @@
 {
 	"name": "ractive-events-mousewheel",
-	"repo": "RactiveJS/Ractive-events-mousewheel",
-	"description": "Ractive-events-mousewheel",
-	"version": "0.1.0",
+	"repo": "ractivejs/ractive-events-mousewheel",
+	"description": "ractive-events-mousewheel",
+	"version": "0.1.1",
 	"keywords": [],
 	"dependencies": {
-		"RactiveJS/Ractive": "0.3.9"
+		"ractivejs/ractive": "^0.5.8"
 	},
-	"development": {},
 	"license": "MIT",
-	"main": "Ractive-events-mousewheel.js",
 	"scripts": [
-		"Ractive-events-mousewheel.js"
+		"ractive-events-mousewheel.js"
 	]
 }

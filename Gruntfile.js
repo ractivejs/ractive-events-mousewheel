@@ -23,8 +23,8 @@ module.exports = function ( grunt ) {
 
 		concat: {
 			bundle: {
-				src: 'src/Ractive-events-mousewheel.js',
-				dest: 'tmp/Ractive-events-mousewheel.js'
+				src: 'src/ractive-events-mousewheel.js',
+				dest: 'tmp/ractive-events-mousewheel.js'
 			},
 			options: {
 				process: {
@@ -41,8 +41,8 @@ module.exports = function ( grunt ) {
 
 		uglify: {
 			bundle: {
-				src: 'tmp/Ractive-events-mousewheel.js',
-				dest: 'tmp/Ractive-events-mousewheel.min.js'
+				src: 'tmp/ractive-events-mousewheel.js',
+				dest: 'tmp/ractive-events-mousewheel.min.js'
 			}
 		},
 
@@ -56,7 +56,7 @@ module.exports = function ( grunt ) {
 				}]
 			}
 		}
-		
+
 	});
 
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
