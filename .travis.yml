@@ -7,7 +7,7 @@ script: ./scripts/deploy-to-gh-pages.sh
 env:
   global:
   - GH_REF: github.com/ractivejs/ractive-events-mousewheel.git
-  - secure: RwkzIPCpmvi+Bjs448jM64BsvyAhd9Ddjgv9pOZlCwZnrgTX6bpFKSslgudONLtPpSjFuLi1Y0r5MH0lVbAjNq1cKYH9ox/A3J78CkVmPYt8QYNM9Jq4dOsgcwagD0Gb6EbrJlgw7rUDjjyDXvAdwRl0wPVry/aCMRg4H988FWU=
+  - secure: bs1yyUXW1FPgDqajGObIqwAqPkFvMvE7VvJKpC+zfMgtddeyMrdFs1WqjdqrIWCrK12Wq6GGqUX8pNGwDIAtKyNivTLI2zjJrvFNMoypIVjET9t9E8OEvXt0nzhknRxwQps7dYV3qck+rXfmUR8QyO3qT/jCemKa+qyI0j0CnLM=
 branches:
   only:
     - master
